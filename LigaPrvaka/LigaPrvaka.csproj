@@ -160,6 +160,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Kontroler\Connection.cs" />
+    <Compile Include="Kontroler\IgraciController.cs" />
+    <Compile Include="Kontroler\TimoviController.cs" />
+    <Compile Include="Kontroler\UtakmiceController.cs" />
+    <Compile Include="Models\Igrac.cs" />
+    <Compile Include="Models\Tim.cs" />
+    <Compile Include="Models\Utakmica.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -215,7 +222,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
