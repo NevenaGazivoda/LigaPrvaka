@@ -21,6 +21,11 @@ namespace LigaPrvaka.Controllers
             return View(igracis.ToList());
         }
 
+        public ActionResult IgraciTima(int TimID)
+        {
+            var igraci = db.Igracis.Where(k => k.FKTimID == TimID);
+            return PartialView(igraci.ToList());
+        }
         // GET: Igracis/Details/5
         public ActionResult Details(int? id)
         {

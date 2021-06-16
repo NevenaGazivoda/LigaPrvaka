@@ -28,6 +28,9 @@
 
     </dl>
 </div>
+<div>
+    @Html.Action("IgraciTima", "Igracis", new { TimID = Model.PKTimID })
+</div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.PKTimID }) |
     @Html.ActionLink("Back to List", "Index")

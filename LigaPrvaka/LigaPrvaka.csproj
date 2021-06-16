@@ -325,6 +325,7 @@
     <Content Include="Views\Utakmices\Details.cshtml" />
     <Content Include="Views\Utakmices\Edit.cshtml" />
     <Content Include="Views\Utakmices\Index.cshtml" />
+    <Content Include="Views\Igracis\IgraciTima.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
