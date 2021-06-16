@@ -1,0 +1,50 @@
+﻿@model LigaPrvaka.ModelEF.Utakmouse
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Utakmouse</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Br_golova_d)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Br_golova_d)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Br_golova_g)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Br_golova_g)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Timovi.Naziv)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Timovi.Naziv)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Timovi1.Naziv)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Timovi1.Naziv)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.PKUtakmicaID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

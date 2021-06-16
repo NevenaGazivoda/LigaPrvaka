@@ -165,6 +165,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IgracisController.cs" />
     <Compile Include="Controllers\TimovisController.cs" />
+    <Compile Include="Controllers\UtakmicesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -319,6 +320,11 @@
     <Content Include="Views\Igracis\Details.cshtml" />
     <Content Include="Views\Igracis\Edit.cshtml" />
     <Content Include="Views\Igracis\Index.cshtml" />
+    <Content Include="Views\Utakmices\Create.cshtml" />
+    <Content Include="Views\Utakmices\Delete.cshtml" />
+    <Content Include="Views\Utakmices\Details.cshtml" />
+    <Content Include="Views\Utakmices\Edit.cshtml" />
+    <Content Include="Views\Utakmices\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
