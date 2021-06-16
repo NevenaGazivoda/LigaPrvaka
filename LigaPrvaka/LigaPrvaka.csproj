@@ -163,8 +163,8 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\IgracisController.cs" />
     <Compile Include="Controllers\TimovisController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -314,6 +314,11 @@
     <Content Include="Views\Timovis\Details.cshtml" />
     <Content Include="Views\Timovis\Edit.cshtml" />
     <Content Include="Views\Timovis\Index.cshtml" />
+    <Content Include="Views\Igracis\Create.cshtml" />
+    <Content Include="Views\Igracis\Delete.cshtml" />
+    <Content Include="Views\Igracis\Details.cshtml" />
+    <Content Include="Views\Igracis\Edit.cshtml" />
+    <Content Include="Views\Igracis\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
