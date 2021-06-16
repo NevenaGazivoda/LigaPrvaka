@@ -15,13 +15,15 @@
             @Html.DisplayName("Domaci")
         </th>
         <th>
-            @Html.DisplayName("Gosti")
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.Br_golova_d)
         </th>
+        <th></th>
         <th>
             @Html.DisplayNameFor(model => model.Br_golova_g)
+
+        </th>
+        <th>
+            @Html.DisplayName("Gosti")
         </th>
         <th></th>
     </tr>
@@ -33,18 +35,19 @@
                 @Html.DisplayFor(modelItem => item.Timovi.Naziv)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Timovi1.Naziv)
+                @Html.DisplayFor(modelItem => item.Br_golova_d)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Br_golova_d)
+                @Html.DisplayName(":")
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Br_golova_g)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.PKUtakmicaID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.PKUtakmicaID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.PKUtakmicaID })
+                @Html.DisplayFor(modelItem => item.Timovi1.Naziv)
+            </td>
+            <td>               
+                @Html.ActionLink("Details", "Details", new { id = item.PKUtakmicaID })              
             </td>
         </tr>
     }
