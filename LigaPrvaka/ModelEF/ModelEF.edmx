@@ -1,0 +1,755 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="LigaprvakaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Igraci">
+          <Key>
+            <PropertyRef Name="PKIgracID" />
+          </Key>
+          <Property Name="PKIgracID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Ime" Type="nvarchar" MaxLength="255" />
+          <Property Name="FKTimID" Type="int" />
+        </EntityType>
+        <EntityType Name="Statistika">
+          <Key>
+            <PropertyRef Name="PKStatistikaID" />
+          </Key>
+          <Property Name="FKIgracID" Type="int" />
+          <Property Name="FKUtakmicaID" Type="int" />
+          <Property Name="Br_golova" Type="int" />
+          <Property Name="PKStatistikaID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Timovi">
+          <Key>
+            <PropertyRef Name="PKTimID" />
+          </Key>
+          <Property Name="PKTimID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Naziv" Type="nvarchar" MaxLength="255" />
+          <Property Name="Broj_igraca" Type="int" />
+        </EntityType>
+        <EntityType Name="Utakmice">
+          <Key>
+            <PropertyRef Name="PKUtakmicaID" />
+          </Key>
+          <Property Name="PKUtakmicaID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Domaci" Type="int" />
+          <Property Name="Gosti" Type="int" />
+          <Property Name="Br_golova_d" Type="int" />
+          <Property Name="Br_golova_g" Type="int" />
+        </EntityType>
+        <Association Name="FK_Igraci_Timovi">
+          <End Role="Timovi" Type="Self.Timovi" Multiplicity="0..1" />
+          <End Role="Igraci" Type="Self.Igraci" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Timovi">
+              <PropertyRef Name="PKTimID" />
+            </Principal>
+            <Dependent Role="Igraci">
+              <PropertyRef Name="FKTimID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Statistika_Igraci">
+          <End Role="Igraci" Type="Self.Igraci" Multiplicity="0..1" />
+          <End Role="Statistika" Type="Self.Statistika" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Igraci">
+              <PropertyRef Name="PKIgracID" />
+            </Principal>
+            <Dependent Role="Statistika">
+              <PropertyRef Name="FKIgracID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Statistika_Utakmice">
+          <End Role="Utakmice" Type="Self.Utakmice" Multiplicity="0..1" />
+          <End Role="Statistika" Type="Self.Statistika" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Utakmice">
+              <PropertyRef Name="PKUtakmicaID" />
+            </Principal>
+            <Dependent Role="Statistika">
+              <PropertyRef Name="FKUtakmicaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Utakmice_Timovi">
+          <End Role="Timovi" Type="Self.Timovi" Multiplicity="0..1" />
+          <End Role="Utakmice" Type="Self.Utakmice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Timovi">
+              <PropertyRef Name="PKTimID" />
+            </Principal>
+            <Dependent Role="Utakmice">
+              <PropertyRef Name="Domaci" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Utakmice_Timovi1">
+          <End Role="Timovi" Type="Self.Timovi" Multiplicity="0..1" />
+          <End Role="Utakmice" Type="Self.Utakmice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Timovi">
+              <PropertyRef Name="PKTimID" />
+            </Principal>
+            <Dependent Role="Utakmice">
+              <PropertyRef Name="Gosti" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="deleteFromIgraci" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdIgraca" Type="int" Mode="In" />
+        </Function>
+        <Function Name="deleteFromStatistika" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IgracId" Type="int" Mode="In" />
+          <Parameter Name="UtakmicaId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="deleteFromTimovi" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdTima" Type="int" Mode="In" />
+        </Function>
+        <Function Name="deleteFromUtakmice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdUtakmice" Type="int" Mode="In" />
+        </Function>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="getAllFromIgraci" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="getAllFromStatistika" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="getAllFromTimovi" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="getAllFromUtakmice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="getIgracById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IgracId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="getStatistikaById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IgracId" Type="int" Mode="In" />
+          <Parameter Name="UtakmicaId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="getTimById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TimId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="getUtakmicaById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UtakmicaId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="insertIntoIgraci" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Ime" Type="varchar" Mode="In" />
+          <Parameter Name="IdTima" Type="int" Mode="In" />
+        </Function>
+        <Function Name="insertIntoStatistika" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IgracId" Type="int" Mode="In" />
+          <Parameter Name="UtakmicaId" Type="int" Mode="In" />
+          <Parameter Name="Golovi" Type="int" Mode="In" />
+        </Function>
+        <Function Name="insertIntoTimovi" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Naziv" Type="varchar" Mode="In" />
+          <Parameter Name="Broj" Type="int" Mode="In" />
+        </Function>
+        <Function Name="insertIntoUtakmice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdDomaci" Type="int" Mode="In" />
+          <Parameter Name="IdGosti" Type="int" Mode="In" />
+          <Parameter Name="Golovi_domaci" Type="int" Mode="In" />
+          <Parameter Name="Golovi_gosti" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="updateToIgraci" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Ime" Type="nvarchar" Mode="In" />
+          <Parameter Name="TimId" Type="int" Mode="In" />
+          <Parameter Name="IgracId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="updateToStatistika" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IgracId" Type="int" Mode="In" />
+          <Parameter Name="UtakmicaId" Type="int" Mode="In" />
+          <Parameter Name="Golovi" Type="int" Mode="In" />
+        </Function>
+        <Function Name="updateToTimovi" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Naziv" Type="nvarchar" Mode="In" />
+          <Parameter Name="Broj" Type="int" Mode="In" />
+          <Parameter Name="TimId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="updateToUtakmice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdDomaci" Type="int" Mode="In" />
+          <Parameter Name="IdGosti" Type="int" Mode="In" />
+          <Parameter Name="Golovi_domaci" Type="int" Mode="In" />
+          <Parameter Name="Golovi_gosti" Type="int" Mode="In" />
+          <Parameter Name="UtakmicaId" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="LigaprvakaModelStoreContainer">
+          <EntitySet Name="Igraci" EntityType="Self.Igraci" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Statistika" EntityType="Self.Statistika" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Timovi" EntityType="Self.Timovi" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Utakmice" EntityType="Self.Utakmice" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Igraci_Timovi" Association="Self.FK_Igraci_Timovi">
+            <End Role="Timovi" EntitySet="Timovi" />
+            <End Role="Igraci" EntitySet="Igraci" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Statistika_Igraci" Association="Self.FK_Statistika_Igraci">
+            <End Role="Igraci" EntitySet="Igraci" />
+            <End Role="Statistika" EntitySet="Statistika" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Statistika_Utakmice" Association="Self.FK_Statistika_Utakmice">
+            <End Role="Utakmice" EntitySet="Utakmice" />
+            <End Role="Statistika" EntitySet="Statistika" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Utakmice_Timovi" Association="Self.FK_Utakmice_Timovi">
+            <End Role="Timovi" EntitySet="Timovi" />
+            <End Role="Utakmice" EntitySet="Utakmice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Utakmice_Timovi1" Association="Self.FK_Utakmice_Timovi1">
+            <End Role="Timovi" EntitySet="Timovi" />
+            <End Role="Utakmice" EntitySet="Utakmice" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="LigaprvakaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Igraci">
+          <Key>
+            <PropertyRef Name="PKIgracID" />
+          </Key>
+          <Property Name="PKIgracID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Ime" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="FKTimID" Type="Int32" />
+          <NavigationProperty Name="Timovi" Relationship="Self.FK_Igraci_Timovi" FromRole="Igraci" ToRole="Timovi" />
+          <NavigationProperty Name="Statistikas" Relationship="Self.FK_Statistika_Igraci" FromRole="Igraci" ToRole="Statistika" />
+        </EntityType>
+        <EntityType Name="Statistika">
+          <Key>
+            <PropertyRef Name="PKStatistikaID" />
+          </Key>
+          <Property Name="FKIgracID" Type="Int32" />
+          <Property Name="FKUtakmicaID" Type="Int32" />
+          <Property Name="Br_golova" Type="Int32" />
+          <Property Name="PKStatistikaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Igraci" Relationship="Self.FK_Statistika_Igraci" FromRole="Statistika" ToRole="Igraci" />
+          <NavigationProperty Name="Utakmouse" Relationship="Self.FK_Statistika_Utakmice" FromRole="Statistika" ToRole="Utakmice" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Timovi">
+          <Key>
+            <PropertyRef Name="PKTimID" />
+          </Key>
+          <Property Name="PKTimID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Naziv" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Broj_igraca" Type="Int32" />
+          <NavigationProperty Name="Igracis" Relationship="Self.FK_Igraci_Timovi" FromRole="Timovi" ToRole="Igraci" />
+          <NavigationProperty Name="Utakmice" Relationship="Self.FK_Utakmice_Timovi" FromRole="Timovi" ToRole="Utakmice" />
+          <NavigationProperty Name="Utakmice1" Relationship="Self.FK_Utakmice_Timovi1" FromRole="Timovi" ToRole="Utakmice" />
+        </EntityType>
+        <EntityType Name="Utakmouse">
+          <Key>
+            <PropertyRef Name="PKUtakmicaID" />
+          </Key>
+          <Property Name="PKUtakmicaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Domaci" Type="Int32" />
+          <Property Name="Gosti" Type="Int32" />
+          <Property Name="Br_golova_d" Type="Int32" />
+          <Property Name="Br_golova_g" Type="Int32" />
+          <NavigationProperty Name="Statistikas" Relationship="Self.FK_Statistika_Utakmice" FromRole="Utakmice" ToRole="Statistika" />
+          <NavigationProperty Name="Timovi" Relationship="Self.FK_Utakmice_Timovi" FromRole="Utakmice" ToRole="Timovi" />
+          <NavigationProperty Name="Timovi1" Relationship="Self.FK_Utakmice_Timovi1" FromRole="Utakmice" ToRole="Timovi" />
+        </EntityType>
+        <Association Name="FK_Igraci_Timovi">
+          <End Role="Timovi" Type="Self.Timovi" Multiplicity="0..1" />
+          <End Role="Igraci" Type="Self.Igraci" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Timovi">
+              <PropertyRef Name="PKTimID" />
+            </Principal>
+            <Dependent Role="Igraci">
+              <PropertyRef Name="FKTimID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Statistika_Igraci">
+          <End Role="Igraci" Type="Self.Igraci" Multiplicity="0..1" />
+          <End Role="Statistika" Type="Self.Statistika" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Igraci">
+              <PropertyRef Name="PKIgracID" />
+            </Principal>
+            <Dependent Role="Statistika">
+              <PropertyRef Name="FKIgracID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Statistika_Utakmice">
+          <End Role="Utakmice" Type="Self.Utakmouse" Multiplicity="0..1" />
+          <End Role="Statistika" Type="Self.Statistika" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Utakmice">
+              <PropertyRef Name="PKUtakmicaID" />
+            </Principal>
+            <Dependent Role="Statistika">
+              <PropertyRef Name="FKUtakmicaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Utakmice_Timovi">
+          <End Role="Timovi" Type="Self.Timovi" Multiplicity="0..1" />
+          <End Role="Utakmice" Type="Self.Utakmouse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Timovi">
+              <PropertyRef Name="PKTimID" />
+            </Principal>
+            <Dependent Role="Utakmice">
+              <PropertyRef Name="Domaci" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Utakmice_Timovi1">
+          <End Role="Timovi" Type="Self.Timovi" Multiplicity="0..1" />
+          <End Role="Utakmice" Type="Self.Utakmouse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Timovi">
+              <PropertyRef Name="PKTimID" />
+            </Principal>
+            <Dependent Role="Utakmice">
+              <PropertyRef Name="Gosti" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LigaprvakaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Igracis" EntityType="Self.Igraci" />
+          <EntitySet Name="Statistikas" EntityType="Self.Statistika" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="Timovis" EntityType="Self.Timovi" />
+          <EntitySet Name="Utakmice" EntityType="Self.Utakmouse" />
+          <AssociationSet Name="FK_Igraci_Timovi" Association="Self.FK_Igraci_Timovi">
+            <End Role="Timovi" EntitySet="Timovis" />
+            <End Role="Igraci" EntitySet="Igracis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Statistika_Igraci" Association="Self.FK_Statistika_Igraci">
+            <End Role="Igraci" EntitySet="Igracis" />
+            <End Role="Statistika" EntitySet="Statistikas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Statistika_Utakmice" Association="Self.FK_Statistika_Utakmice">
+            <End Role="Utakmice" EntitySet="Utakmice" />
+            <End Role="Statistika" EntitySet="Statistikas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Utakmice_Timovi" Association="Self.FK_Utakmice_Timovi">
+            <End Role="Timovi" EntitySet="Timovis" />
+            <End Role="Utakmice" EntitySet="Utakmice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Utakmice_Timovi1" Association="Self.FK_Utakmice_Timovi1">
+            <End Role="Timovi" EntitySet="Timovis" />
+            <End Role="Utakmice" EntitySet="Utakmice" />
+          </AssociationSet>
+          <FunctionImport Name="deleteFromIgraci">
+            <Parameter Name="IdIgraca" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="deleteFromStatistika">
+            <Parameter Name="IgracId" Mode="In" Type="Int32" />
+            <Parameter Name="UtakmicaId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="deleteFromTimovi">
+            <Parameter Name="IdTima" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="deleteFromUtakmice">
+            <Parameter Name="IdUtakmice" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="getAllFromIgraci" ReturnType="Collection(LigaprvakaModel.getAllFromIgraci_Result)" />
+          <FunctionImport Name="getAllFromStatistika" ReturnType="Collection(LigaprvakaModel.getAllFromStatistika_Result)" />
+          <FunctionImport Name="getAllFromTimovi" ReturnType="Collection(LigaprvakaModel.getAllFromTimovi_Result)" />
+          <FunctionImport Name="getAllFromUtakmice" ReturnType="Collection(LigaprvakaModel.getAllFromUtakmice_Result)" />
+          <FunctionImport Name="getIgracById" ReturnType="Collection(LigaprvakaModel.getIgracById_Result)">
+            <Parameter Name="IgracId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="getStatistikaById" ReturnType="Collection(LigaprvakaModel.getStatistikaById_Result)">
+            <Parameter Name="IgracId" Mode="In" Type="Int32" />
+            <Parameter Name="UtakmicaId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="getTimById" ReturnType="Collection(LigaprvakaModel.getTimById_Result)">
+            <Parameter Name="TimId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="getUtakmicaById" ReturnType="Collection(LigaprvakaModel.getUtakmicaById_Result)">
+            <Parameter Name="UtakmicaId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="insertIntoIgraci">
+            <Parameter Name="Ime" Mode="In" Type="String" />
+            <Parameter Name="IdTima" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="insertIntoStatistika">
+            <Parameter Name="IgracId" Mode="In" Type="Int32" />
+            <Parameter Name="UtakmicaId" Mode="In" Type="Int32" />
+            <Parameter Name="Golovi" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="insertIntoTimovi">
+            <Parameter Name="Naziv" Mode="In" Type="String" />
+            <Parameter Name="Broj" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="insertIntoUtakmice">
+            <Parameter Name="IdDomaci" Mode="In" Type="Int32" />
+            <Parameter Name="IdGosti" Mode="In" Type="Int32" />
+            <Parameter Name="Golovi_domaci" Mode="In" Type="Int32" />
+            <Parameter Name="Golovi_gosti" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(LigaprvakaModel.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(LigaprvakaModel.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
+          <FunctionImport Name="updateToIgraci">
+            <Parameter Name="Ime" Mode="In" Type="String" />
+            <Parameter Name="TimId" Mode="In" Type="Int32" />
+            <Parameter Name="IgracId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="updateToStatistika" ReturnType="Collection(LigaprvakaModel.updateToStatistika_Result)">
+            <Parameter Name="IgracId" Mode="In" Type="Int32" />
+            <Parameter Name="UtakmicaId" Mode="In" Type="Int32" />
+            <Parameter Name="Golovi" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="updateToTimovi">
+            <Parameter Name="Naziv" Mode="In" Type="String" />
+            <Parameter Name="Broj" Mode="In" Type="Int32" />
+            <Parameter Name="TimId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="updateToUtakmice">
+            <Parameter Name="IdDomaci" Mode="In" Type="Int32" />
+            <Parameter Name="IdGosti" Mode="In" Type="Int32" />
+            <Parameter Name="Golovi_domaci" Mode="In" Type="Int32" />
+            <Parameter Name="Golovi_gosti" Mode="In" Type="Int32" />
+            <Parameter Name="UtakmicaId" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="getAllFromIgraci_Result">
+          <Property Type="Int32" Name="PKIgracID" Nullable="false" />
+          <Property Type="String" Name="Ime" Nullable="true" MaxLength="255" />
+          <Property Type="Int32" Name="FKTimID" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="getAllFromStatistika_Result">
+          <Property Type="Int32" Name="FKIgracID" Nullable="true" />
+          <Property Type="Int32" Name="FKUtakmicaID" Nullable="true" />
+          <Property Type="Int32" Name="Br_golova" Nullable="true" />
+          <Property Type="Int32" Name="PKStatistikaID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="getAllFromTimovi_Result">
+          <Property Type="Int32" Name="PKTimID" Nullable="false" />
+          <Property Type="String" Name="Naziv" Nullable="true" MaxLength="255" />
+          <Property Type="Int32" Name="Broj_igraca" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="getAllFromUtakmice_Result">
+          <Property Type="Int32" Name="PKUtakmicaID" Nullable="false" />
+          <Property Type="Int32" Name="Domaci" Nullable="true" />
+          <Property Type="Int32" Name="Gosti" Nullable="true" />
+          <Property Type="Int32" Name="Br_golova_d" Nullable="true" />
+          <Property Type="Int32" Name="Br_golova_g" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="getIgracById_Result">
+          <Property Type="Int32" Name="PKIgracID" Nullable="false" />
+          <Property Type="String" Name="Ime" Nullable="true" MaxLength="255" />
+          <Property Type="Int32" Name="FKTimID" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="getStatistikaById_Result">
+          <Property Type="Int32" Name="FKIgracID" Nullable="true" />
+          <Property Type="Int32" Name="FKUtakmicaID" Nullable="true" />
+          <Property Type="Int32" Name="Br_golova" Nullable="true" />
+          <Property Type="Int32" Name="PKStatistikaID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="getTimById_Result">
+          <Property Type="Int32" Name="PKTimID" Nullable="false" />
+          <Property Type="String" Name="Naziv" Nullable="true" MaxLength="255" />
+          <Property Type="Int32" Name="Broj_igraca" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="getUtakmicaById_Result">
+          <Property Type="Int32" Name="PKUtakmicaID" Nullable="false" />
+          <Property Type="Int32" Name="Domaci" Nullable="true" />
+          <Property Type="Int32" Name="Gosti" Nullable="true" />
+          <Property Type="Int32" Name="Br_golova_d" Nullable="true" />
+          <Property Type="Int32" Name="Br_golova_g" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="updateToStatistika_Result">
+          <Property Type="Int32" Name="FKIgracID" Nullable="true" />
+          <Property Type="Int32" Name="FKUtakmicaID" Nullable="true" />
+          <Property Type="Int32" Name="Br_golova" Nullable="true" />
+          <Property Type="Int32" Name="PKStatistikaID" Nullable="false" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="LigaprvakaModelStoreContainer" CdmEntityContainer="LigaprvakaEntities">
+          <EntitySetMapping Name="Igracis">
+            <EntityTypeMapping TypeName="LigaprvakaModel.Igraci">
+              <MappingFragment StoreEntitySet="Igraci">
+                <ScalarProperty Name="PKIgracID" ColumnName="PKIgracID" />
+                <ScalarProperty Name="Ime" ColumnName="Ime" />
+                <ScalarProperty Name="FKTimID" ColumnName="FKTimID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Statistikas">
+            <EntityTypeMapping TypeName="LigaprvakaModel.Statistika">
+              <MappingFragment StoreEntitySet="Statistika">
+                <ScalarProperty Name="FKIgracID" ColumnName="FKIgracID" />
+                <ScalarProperty Name="FKUtakmicaID" ColumnName="FKUtakmicaID" />
+                <ScalarProperty Name="Br_golova" ColumnName="Br_golova" />
+                <ScalarProperty Name="PKStatistikaID" ColumnName="PKStatistikaID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="LigaprvakaModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Timovis">
+            <EntityTypeMapping TypeName="LigaprvakaModel.Timovi">
+              <MappingFragment StoreEntitySet="Timovi">
+                <ScalarProperty Name="PKTimID" ColumnName="PKTimID" />
+                <ScalarProperty Name="Naziv" ColumnName="Naziv" />
+                <ScalarProperty Name="Broj_igraca" ColumnName="Broj_igraca" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Utakmice">
+            <EntityTypeMapping TypeName="LigaprvakaModel.Utakmouse">
+              <MappingFragment StoreEntitySet="Utakmice">
+                <ScalarProperty Name="PKUtakmicaID" ColumnName="PKUtakmicaID" />
+                <ScalarProperty Name="Domaci" ColumnName="Domaci" />
+                <ScalarProperty Name="Gosti" ColumnName="Gosti" />
+                <ScalarProperty Name="Br_golova_d" ColumnName="Br_golova_d" />
+                <ScalarProperty Name="Br_golova_g" ColumnName="Br_golova_g" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="deleteFromIgraci" FunctionName="LigaprvakaModel.Store.deleteFromIgraci" />
+          <FunctionImportMapping FunctionImportName="deleteFromStatistika" FunctionName="LigaprvakaModel.Store.deleteFromStatistika" />
+          <FunctionImportMapping FunctionImportName="deleteFromTimovi" FunctionName="LigaprvakaModel.Store.deleteFromTimovi" />
+          <FunctionImportMapping FunctionImportName="deleteFromUtakmice" FunctionName="LigaprvakaModel.Store.deleteFromUtakmice" />
+          <FunctionImportMapping FunctionImportName="getAllFromIgraci" FunctionName="LigaprvakaModel.Store.getAllFromIgraci">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LigaprvakaModel.getAllFromIgraci_Result">
+                <ScalarProperty Name="PKIgracID" ColumnName="PKIgracID" />
+                <ScalarProperty Name="Ime" ColumnName="Ime" />
+                <ScalarProperty Name="FKTimID" ColumnName="FKTimID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="getAllFromStatistika" FunctionName="LigaprvakaModel.Store.getAllFromStatistika">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LigaprvakaModel.getAllFromStatistika_Result">
+                <ScalarProperty Name="FKIgracID" ColumnName="FKIgracID" />
+                <ScalarProperty Name="FKUtakmicaID" ColumnName="FKUtakmicaID" />
+                <ScalarProperty Name="Br_golova" ColumnName="Br_golova" />
+                <ScalarProperty Name="PKStatistikaID" ColumnName="PKStatistikaID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="getAllFromTimovi" FunctionName="LigaprvakaModel.Store.getAllFromTimovi">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LigaprvakaModel.getAllFromTimovi_Result">
+                <ScalarProperty Name="PKTimID" ColumnName="PKTimID" />
+                <ScalarProperty Name="Naziv" ColumnName="Naziv" />
+                <ScalarProperty Name="Broj_igraca" ColumnName="Broj_igraca" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="getAllFromUtakmice" FunctionName="LigaprvakaModel.Store.getAllFromUtakmice">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LigaprvakaModel.getAllFromUtakmice_Result">
+                <ScalarProperty Name="PKUtakmicaID" ColumnName="PKUtakmicaID" />
+                <ScalarProperty Name="Domaci" ColumnName="Domaci" />
+                <ScalarProperty Name="Gosti" ColumnName="Gosti" />
+                <ScalarProperty Name="Br_golova_d" ColumnName="Br_golova_d" />
+                <ScalarProperty Name="Br_golova_g" ColumnName="Br_golova_g" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="getIgracById" FunctionName="LigaprvakaModel.Store.getIgracById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LigaprvakaModel.getIgracById_Result">
+                <ScalarProperty Name="PKIgracID" ColumnName="PKIgracID" />
+                <ScalarProperty Name="Ime" ColumnName="Ime" />
+                <ScalarProperty Name="FKTimID" ColumnName="FKTimID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="getStatistikaById" FunctionName="LigaprvakaModel.Store.getStatistikaById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LigaprvakaModel.getStatistikaById_Result">
+                <ScalarProperty Name="FKIgracID" ColumnName="FKIgracID" />
+                <ScalarProperty Name="FKUtakmicaID" ColumnName="FKUtakmicaID" />
+                <ScalarProperty Name="Br_golova" ColumnName="Br_golova" />
+                <ScalarProperty Name="PKStatistikaID" ColumnName="PKStatistikaID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="getTimById" FunctionName="LigaprvakaModel.Store.getTimById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LigaprvakaModel.getTimById_Result">
+                <ScalarProperty Name="PKTimID" ColumnName="PKTimID" />
+                <ScalarProperty Name="Naziv" ColumnName="Naziv" />
+                <ScalarProperty Name="Broj_igraca" ColumnName="Broj_igraca" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="getUtakmicaById" FunctionName="LigaprvakaModel.Store.getUtakmicaById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LigaprvakaModel.getUtakmicaById_Result">
+                <ScalarProperty Name="PKUtakmicaID" ColumnName="PKUtakmicaID" />
+                <ScalarProperty Name="Domaci" ColumnName="Domaci" />
+                <ScalarProperty Name="Gosti" ColumnName="Gosti" />
+                <ScalarProperty Name="Br_golova_d" ColumnName="Br_golova_d" />
+                <ScalarProperty Name="Br_golova_g" ColumnName="Br_golova_g" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="insertIntoIgraci" FunctionName="LigaprvakaModel.Store.insertIntoIgraci" />
+          <FunctionImportMapping FunctionImportName="insertIntoStatistika" FunctionName="LigaprvakaModel.Store.insertIntoStatistika" />
+          <FunctionImportMapping FunctionImportName="insertIntoTimovi" FunctionName="LigaprvakaModel.Store.insertIntoTimovi" />
+          <FunctionImportMapping FunctionImportName="insertIntoUtakmice" FunctionName="LigaprvakaModel.Store.insertIntoUtakmice" />
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="LigaprvakaModel.Store.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="LigaprvakaModel.Store.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="LigaprvakaModel.Store.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="LigaprvakaModel.Store.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LigaprvakaModel.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="LigaprvakaModel.Store.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LigaprvakaModel.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="LigaprvakaModel.Store.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="LigaprvakaModel.Store.sp_upgraddiagrams" />
+          <FunctionImportMapping FunctionImportName="updateToIgraci" FunctionName="LigaprvakaModel.Store.updateToIgraci" />
+          <FunctionImportMapping FunctionImportName="updateToStatistika" FunctionName="LigaprvakaModel.Store.updateToStatistika">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LigaprvakaModel.updateToStatistika_Result">
+                <ScalarProperty Name="FKIgracID" ColumnName="FKIgracID" />
+                <ScalarProperty Name="FKUtakmicaID" ColumnName="FKUtakmicaID" />
+                <ScalarProperty Name="Br_golova" ColumnName="Br_golova" />
+                <ScalarProperty Name="PKStatistikaID" ColumnName="PKStatistikaID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="updateToTimovi" FunctionName="LigaprvakaModel.Store.updateToTimovi" />
+          <FunctionImportMapping FunctionImportName="updateToUtakmice" FunctionName="LigaprvakaModel.Store.updateToUtakmice" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

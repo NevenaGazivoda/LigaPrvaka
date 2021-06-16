@@ -45,10 +45,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -156,6 +163,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\TimovisController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -165,6 +173,69 @@
     <Compile Include="Kontroler\StatistikaController.cs" />
     <Compile Include="Kontroler\TimoviController.cs" />
     <Compile Include="Kontroler\UtakmiceController.cs" />
+    <Compile Include="ModelEF\getAllFromIgraci_Result.cs">
+      <DependentUpon>ModelEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelEF\getAllFromStatistika_Result.cs">
+      <DependentUpon>ModelEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelEF\getAllFromTimovi_Result.cs">
+      <DependentUpon>ModelEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelEF\getAllFromUtakmice_Result.cs">
+      <DependentUpon>ModelEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelEF\getIgracById_Result.cs">
+      <DependentUpon>ModelEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelEF\getStatistikaById_Result.cs">
+      <DependentUpon>ModelEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelEF\getTimById_Result.cs">
+      <DependentUpon>ModelEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelEF\getUtakmicaById_Result.cs">
+      <DependentUpon>ModelEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelEF\Igraci.cs">
+      <DependentUpon>ModelEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelEF\ModelEF.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelEF.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelEF\ModelEF.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelEF\ModelEF.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelEF.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="ModelEF\sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>ModelEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelEF\sp_helpdiagrams_Result.cs">
+      <DependentUpon>ModelEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelEF\Statistika.cs">
+      <DependentUpon>ModelEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelEF\sysdiagram.cs">
+      <DependentUpon>ModelEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelEF\Timovi.cs">
+      <DependentUpon>ModelEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelEF\updateToStatistika_Result.cs">
+      <DependentUpon>ModelEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelEF\Utakmouse.cs">
+      <DependentUpon>ModelEF.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Igrac.cs" />
     <Compile Include="Models\Statistika.cs" />
     <Compile Include="Models\Tim.cs" />
@@ -180,6 +251,16 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="ModelEF\ModelEF.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ModelEF.Context.cs</LastGenOutput>
+      <DependentUpon>ModelEF.edmx</DependentUpon>
+    </Content>
+    <Content Include="ModelEF\ModelEF.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ModelEF.edmx</DependentUpon>
+      <LastGenOutput>ModelEF.cs</LastGenOutput>
+    </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
@@ -201,6 +282,13 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\CollectionModelDescription.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
+    <EntityDeploy Include="ModelEF\ModelEF.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ModelEF.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="ModelEF\ModelEF.edmx.diagram">
+      <DependentUpon>ModelEF.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -221,6 +309,11 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Timovis\Create.cshtml" />
+    <Content Include="Views\Timovis\Delete.cshtml" />
+    <Content Include="Views\Timovis\Details.cshtml" />
+    <Content Include="Views\Timovis\Edit.cshtml" />
+    <Content Include="Views\Timovis\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -253,6 +346,9 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
